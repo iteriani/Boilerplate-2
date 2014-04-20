@@ -32,9 +32,16 @@ viewModel.compDict = ko.computed(function(){
 	})
 
 	viewModel.messages().forEach(function(x){
-		phrase = x.message;
-		if(phrase == null) return; // status
-
+		var phrase = "";
+		if(x.message != null){
+			phrase = x.message;
+		}else if(x.story != null){
+			if(x.story.indexOf("are now friends") < 0){
+				phrase = x.story;
+			}else{
+				return;
+			}
+		}
 		phrases = phrase.split(" ").map(function(s){
 				return s.replace(/\s+/g, '').replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"").toLowerCase()
 		});
