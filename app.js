@@ -131,15 +131,7 @@ app.get("/graph", function(req,res){
 
 app.get("/facebook/feed", function(req,res){
 	graph.get("/me/feed", function(err,response){
-		graph.get("/me/posts", function(err2, response2){
-			if(err == null && err2 == null){
-				var fullres = response.data.concat(response2.data);
-				res.end(JSON.stringify(fullres));
-			}else{
-				console.log(err,err2);
-				res.end("[]");
-			}
-		})
+		res.end(JSON.stringify(response.data));
 	})
 });
 
