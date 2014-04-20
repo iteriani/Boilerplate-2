@@ -130,7 +130,7 @@ app.get("/graph", function(req,res){
 })
 
 app.get("/facebook/feed", function(req,res){
-	graph.get("/me/feed", function(err,response){
+	graph.get("/me/posts", function(err,response){
 		res.end(JSON.stringify(response.data));
 	})
 });
