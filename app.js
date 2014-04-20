@@ -23,8 +23,8 @@ var passportTwitterStrategy = require('passport-twitter').Strategy;
 var accessToken = "";
 var accessSecret = "";
 var twitterOauth = {
-	consumer_key: process.env.twitter_client_id,
-	consumer_secret: process.env.twitter_client_secret,
+	consumer_key: 'F9JxJoQtYCC9vmwSZ3c3hBNlu',
+	consumer_secret: '7ROjhm5iqVMBWlRnAFqcUz2R3aYmZCIM2CLSqAtAVri6teegvw',
 	access_token: accessToken,
 	access_token_secret: accessSecret
 };
@@ -49,8 +49,8 @@ function ensureAuthenticated(req, res, next) {
 
 //Use TwitterStrategy with passport
 passport.use(new passportTwitterStrategy({
-	consumerKey: process.env.twitter_client_id,
-	consumerSecret: process.env.twitter_client_secret,
+	consumerKey: "9TTmDpr4u1RRTbjfnzE4HDGA6",
+	consumerSecret: 'xHGFkIgma0U4aVjlcQZzaUbx8AWmqRNzbGoKH18WoyBPfNZ7jv',
 	callbackURL: "http://localhost:3000/auth/twitter/callback"
 }, function (token, tokenSecret, profile, done) {
 	//setting up access token
@@ -88,9 +88,9 @@ app.get('/', function(req,res) {
 app.get('/auth/facebook', function(req, res) {
 	if (!req.query.code) {
 		var authUrl = graph.getOauthUrl({
-			'client_id': process.env.facebook_client_id,
+			'client_id': '273635606130233',
 			'redirect_uri': 'http://localhost:3000/auth/facebook',
-			'scope': 'user_about_me'//you want to update scope to what you want in your app
+			'scope': 'user_about_me,read_stream'//you want to update scope to what you want in your app
 		});
 
 		if (!req.query.error) {
@@ -101,9 +101,9 @@ app.get('/auth/facebook', function(req, res) {
 		return;
 	}
 	graph.authorize({
-		'client_id': process.env.facebook_client_id,
+		'client_id': '273635606130233',
 		'redirect_uri': 'http://localhost:3000/auth/facebook',
-		'client_secret': process.env.facebook_client_secret,
+		'client_secret': '6c2304c6baf5c52a99715f9280256921',
 		'code': req.query.code
 	}, function( err, facebookRes) {
 		res.redirect('/UserHasLoggedIn');
@@ -123,6 +123,24 @@ app.get('/UserHasLoggedIn', function(req, res) {
 //this will set up twitter oauth for any user not just one
 app.get('/auth/twitter', passport.authenticate('twitter'), function(req, res) {
 	//nothing here because callback redirects to /auth/twitter/callback
+});
+
+app.get("/graph", function(req,res){
+	res.render("graph");
+})
+
+app.get("/facebook/feed", function(req,res){
+	graph.get("/me/feed", function(err,response){
+		graph.get("/me/posts", function(err2, response2){
+			if(err == null && err2 == null){
+				var fullres = response.data.concat(response2.data);
+				res.end(JSON.stringify(fullres));
+			}else{
+				console.log(err,err2);
+				res.end("[]");
+			}
+		})
+	})
 });
 
 //callback. authenticates again and then goes to twitter
