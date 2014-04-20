@@ -89,7 +89,7 @@ app.get('/auth/facebook', function(req, res) {
 	if (!req.query.code) {
 		var authUrl = graph.getOauthUrl({
 			'client_id': '273635606130233',
-			'redirect_uri': 'http://localhost:3000/auth/facebook',
+			'redirect_uri': 'http://freq-cloud.herokuapp.com/auth/facebook',
 			'scope': 'user_about_me,read_stream'//you want to update scope to what you want in your app
 		});
 
@@ -102,7 +102,7 @@ app.get('/auth/facebook', function(req, res) {
 	}
 	graph.authorize({
 		'client_id': '273635606130233',
-		'redirect_uri': 'http://localhost:3000/auth/facebook',
+		'redirect_uri': 'http://freq-cloud.herokuapp.com/auth/facebook',
 		'client_secret': '6c2304c6baf5c52a99715f9280256921',
 		'code': req.query.code
 	}, function( err, facebookRes) {
