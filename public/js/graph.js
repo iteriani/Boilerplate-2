@@ -78,7 +78,7 @@ viewModel.compFreq = ko.computed(function(){
 	var dict = this();
 	var freq = [];
 	for(var i in dict){
-		freq.push({
+		var obj = {
 			name : i, 
 			pop : dict[i].map(function(e){return e.text}),
 			size: dict[i].reduce(function(prev,curr)
@@ -87,7 +87,11 @@ viewModel.compFreq = ko.computed(function(){
 				{ return prev + curr.likes},0),
 			comments : dict[i].reduce(function(prev,curr)
 				{ return prev + curr.comments},0)
-			});
+			};
+		if(isNaN(obj.size)){
+			obj.size = .5;
+		}
+		freq.push();
 	}
 	var data = {name : "WORDS", children : freq};
 	if(freq[0] != "")
@@ -154,12 +158,7 @@ function update(data) {
 		.attr('transform', function(d) {return 'translate(' + d.x + ',' + d.y + ')'; });
 
 	update.select('circle')
-			.attr('r' , function(d) {
-				if(isNaN(d.r)){
-					return 1;
-				}
-			 		return d.r; 
-			 });	 		// updates size of radius when values change
+			.attr('r' , function(d) { return d.r; });	 		// updates size of radius when values change
 	update.select('text')
 			.style('opacity', 1);
 
