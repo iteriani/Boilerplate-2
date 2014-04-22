@@ -140,7 +140,7 @@ app.get('/auth/twitter/callback',
 	passport.authenticate('twitter', { failureRedirect: '/' }),
 	function(req, res) {
 		var test ="OK";
-		res.redirect('/graph');
+		res.redirect('/twitter');
 	});
 
 
