@@ -15,7 +15,8 @@
     "passport-twitter": "*",
     "dotenv": "*",
     "fbgraph": "*",
-    "twit": "*"
+    "twit": "*",
+    "node-twitter-api" : "*"
   },
   "engines": {
     "node": "0.10.x"
