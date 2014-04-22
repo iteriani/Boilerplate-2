@@ -14,7 +14,8 @@ var svg = d3.select('div#graph')
 var viewModel = {
 	words : ko.observable(""),
 	messages : ko.observableArray([]),
-	currentPoint : ko.observable({pop:[]})
+	currentPoint : ko.observable({pop:[]}),
+	percentage : ko.observable(0)
 }
 
 viewModel.compWords = ko.computed(function(){
@@ -138,6 +139,7 @@ function update(data) {
 		.on("click", function(d){
 			viewModel.currentPoint(d);
 			switchVals([d.likes+1,d.comments+1]);
+			viewModel.percentage(100*((d.likes/(d.comments+d.likes))
 			$("#graph").slideToggle()
 			$("#piechart").slideToggle()
 		})
