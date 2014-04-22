@@ -51,7 +51,7 @@ function ensureAuthenticated(req, res, next) {
 passport.use(new passportTwitterStrategy({
 	consumerKey: "9TTmDpr4u1RRTbjfnzE4HDGA6",
 	consumerSecret: 'xHGFkIgma0U4aVjlcQZzaUbx8AWmqRNzbGoKH18WoyBPfNZ7jv',
-	callbackURL: "http://localhost:3000/auth/twitter/callback"
+	callbackURL: "http://freq-cloud.herokuapp.com/auth/twitter/callback"
 }, function (token, tokenSecret, profile, done) {
 	//setting up access token
 	accessToken = token;
