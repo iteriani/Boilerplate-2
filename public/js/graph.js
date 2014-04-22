@@ -1,12 +1,12 @@
 ko.bindingHandlers.progress = {
 	init : function(element, value){
-				console.log(value);
+		console.log(value());
 		var val = value();
 		$(element).text(val);
 		$(element).attr("width", val+"%");
 	},
 	update : function(element, value){
-		console.log(value);
+		console.log(value());
 		var val = value();
 		$(element).text(val);
 		$(element).attr("width", val+"%");
