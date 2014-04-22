@@ -70,10 +70,6 @@ app.use(express.bodyParser());
 //Allows cookie access and interaction
 app.use(express.cookieParser() );
 app.use(express.session({ secret: 'nyan cat'}));
-//Intialize passport
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(app.router);
 
 //routes
 app.get('/', function(req,res) { 
