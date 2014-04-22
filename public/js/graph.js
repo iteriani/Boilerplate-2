@@ -139,7 +139,8 @@ function update(data) {
 		.on("click", function(d){
 			viewModel.currentPoint(d);
 			switchVals([d.likes+1,d.comments+1]);
-			viewModel.percentage(100*(d.likes/(d.comments+d.likes));
+			var ratio = d.likes/(d.comments + d.likes);
+			viewModel.percentage(100*ratio);
 			$("#graph").slideToggle()
 			$("#piechart").slideToggle()
 		})
