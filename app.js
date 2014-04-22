@@ -139,6 +139,7 @@ app.get("/facebook/feed", function(req,res){
 app.get('/auth/twitter/callback', 
 	passport.authenticate('twitter', { failureRedirect: '/' }),
 	function(req, res) {
+		var test ="OK";
 		res.redirect('/graph');
 	});
 
