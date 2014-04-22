@@ -154,6 +154,12 @@ app.get('/twitter', ensureAuthenticated, function(req, res) {
 	});
 });
 
+app.get("/twitter/tweets", ensureAuthenticated, function(req,res){
+	T.get('/twitter/tweets', function(err, reply){
+		res.end(JSON.stringify(reply));
+	});
+});
+
 //set environment ports and start application
 app.set('port', process.env.PORT || 3000);
 http.createServer(app).listen(app.get('port'), function(){

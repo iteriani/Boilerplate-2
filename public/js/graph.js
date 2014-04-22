@@ -1,13 +1,13 @@
 ko.bindingHandlers.progress = {
 	init : function(element, value){
 		console.log(value());
-		var val = (int)(value()());
+		var val = parseInt(value()());
 		$(element).text(val + "% likes");
 		$(element).css("width", val+"%");
 	},
 	update : function(element, value){
 		console.log(value());
-		var val = (int)(value()());
+		var val = parseInt(value()());
 		$(element).text(val + "% likes");
 		$(element).css("width", val+"%");
 	}
