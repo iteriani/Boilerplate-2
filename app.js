@@ -106,7 +106,7 @@ app.get('/auth/facebook', function(req, res) {
 		'client_secret': '6c2304c6baf5c52a99715f9280256921',
 		'code': req.query.code
 	}, function( err, facebookRes) {
-		res.redirect('/UserHasLoggedIn');
+		res.redirect('/graph');
 	});
 });
 
@@ -139,7 +139,7 @@ app.get("/facebook/feed", function(req,res){
 app.get('/auth/twitter/callback', 
 	passport.authenticate('twitter', { failureRedirect: '/' }),
 	function(req, res) {
-		res.redirect('/twitter');
+		res.redirect('/graph');
 	});
 
 
