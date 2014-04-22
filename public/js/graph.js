@@ -154,7 +154,12 @@ function update(data) {
 		.attr('transform', function(d) {return 'translate(' + d.x + ',' + d.y + ')'; });
 
 	update.select('circle')
-			.attr('r' , function(d) { return d.r; });	 		// updates size of radius when values change
+			.attr('r' , function(d) {
+				if(isNaN(d.r)){
+					return .5;
+				}
+			 		return d.r; 
+			 });	 		// updates size of radius when values change
 	update.select('text')
 			.style('opacity', 1);
 
