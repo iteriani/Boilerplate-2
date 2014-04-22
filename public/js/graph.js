@@ -91,7 +91,7 @@ viewModel.compFreq = ko.computed(function(){
 		if(isNaN(obj.size)){
 			obj.size = .5;
 		}
-		freq.push();
+		freq.push(obj);
 	}
 	var data = {name : "WORDS", children : freq};
 	if(freq[0] != "")
