@@ -1,4 +1,4 @@
-ko.bindingHandlers.percentage = {
+ko.bindingHandlers.progress = {
 	init : function(element, value){
 				console.log(value);
 		var val = value();
