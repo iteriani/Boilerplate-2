@@ -156,7 +156,7 @@ app.get('/twitter', ensureAuthenticated, function(req, res) {
 
 app.get("/twitter/tweets", ensureAuthenticated, function(req,res){
 	var T = new twit(twitterOauth);
-	T.get('/statuses/user_timeline.json', function(err, reply){
+	T.get('/statuses/user_timeline', function(err, reply){
 		console.log(err);
 		res.end(JSON.stringify(reply));
 	});
