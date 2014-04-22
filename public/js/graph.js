@@ -3,13 +3,13 @@ ko.bindingHandlers.progress = {
 		console.log(value());
 		var val = value()();
 		$(element).text(val);
-		$(element).attr("width", val+"%");
+		$(element).css("width", val+"%");
 	},
 	update : function(element, value){
 		console.log(value());
 		var val = value()();
 		$(element).text(val);
-		$(element).attr("width", val+"%");
+		$(element).css("width", val+"%");
 	}
 }
 
