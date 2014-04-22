@@ -88,9 +88,6 @@ viewModel.compFreq = ko.computed(function(){
 			comments : dict[i].reduce(function(prev,curr)
 				{ return prev + curr.comments},0)
 			};
-		if(isNaN(obj.size)){
-			obj.size = .5;
-		}
 		freq.push(obj);
 	}
 	var data = {name : "WORDS", children : freq};
