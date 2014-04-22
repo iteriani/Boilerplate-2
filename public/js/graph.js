@@ -156,7 +156,7 @@ function update(data) {
 	update.select('circle')
 			.attr('r' , function(d) {
 				if(isNaN(d.r)){
-					return .5;
+					return 1;
 				}
 			 		return d.r; 
 			 });	 		// updates size of radius when values change
