@@ -10,35 +10,48 @@ dotenv.load();
 
 //fbgraph
 var graph = require('fbgraph');
-
-//twit
-var twit = require('twit');
-
-//twitter oauth
-var passport = require('passport');
 var util = require('util');
-var passportTwitterStrategy = require('passport-twitter').Strategy;
 
-//have two blank strings for access token and access secret
-var accessToken = "";
-var accessSecret = "";
-var twitterOauth = {
-	consumer_key: 'F9JxJoQtYCC9vmwSZ3c3hBNlu',
-	consumer_secret: '7ROjhm5iqVMBWlRnAFqcUz2R3aYmZCIM2CLSqAtAVri6teegvw',
-	access_token: accessToken,
-	access_token_secret: accessSecret
-};
 
-//Set up passport session set up.
-//This allows persistant login sessions so the user doesn't need to keep logging in everytime
-//for their access token
-passport.serializeUser(function(user, done) {
-	done(null, user);
+var twitterAPI = require('node-twitter-api');
+var twitter = new twitterAPI({
+    consumerKey: 'F9JxJoQtYCC9vmwSZ3c3hBNlu',
+    consumerSecret: '7ROjhm5iqVMBWlRnAFqcUz2R3aYmZCIM2CLSqAtAVri6teegvw',
+    callback: 'http://freq-cloud.herokuapp.com/twitter/cb'
 });
 
-passport.deserializeUser(function(obj, done) {
-	done(null, obj);
+app.get("/twitter/cb", function(req,res){
+	twitter.getAccessToken(req.session.token, req.session.secret, req.query.oauth_verifier,
+		function(error, accessToken, accessTokenSecret, results){
+			
+			req.session.oauth_verifier = req.query.oauth_verifier;
+			req.session.accessToken = accessToken;
+			req.session.accessSecret = accessTokenSecret;
+			res.redirect("/graph");
+	});
 });
+
+app.get("/twitter/auth", function(req,res){
+
+	twitter.getRequestToken(function(error, requestToken, requestTokenSecret, results){
+    	if (error) {
+        	console.log("Error getting OAuth request token : " + error);
+    	} else {
+    		req.session.token = requestToken;
+    		req.session.secret = requestTokenSecret;
+    		res.redirect("https://twitter.com/oauth/authenticate?oauth_token="+requestToken);
+        //store token and tokenSecret somewhere, you'll need them later; redirect user
+    	}
+	});
+});
+app.get('/twitter/tweets', function(req, res) {
+	//console.log(req.session, "SESSION")
+					twitter.getTimeline("user_timeline", {}, 
+						req.session.accessToken, req.session.accessSecret, function(error, data, response){
+					req.session.tweets = data;
+					res.end(JSON.stringify(data));
+				});
+})
 
 // Simple route middleware to ensure user is authenticated.
 function ensureAuthenticated(req, res, next) {
@@ -46,23 +59,6 @@ function ensureAuthenticated(req, res, next) {
 	res.redirect('/');
 }
 
-
-//Use TwitterStrategy with passport
-passport.use(new passportTwitterStrategy({
-	consumerKey: "9TTmDpr4u1RRTbjfnzE4HDGA6",
-	consumerSecret: 'xHGFkIgma0U4aVjlcQZzaUbx8AWmqRNzbGoKH18WoyBPfNZ7jv',
-	callbackURL: "http://freq-cloud.herokuapp.com/auth/twitter/callback"
-}, function (token, tokenSecret, profile, done) {
-	//setting up access token
-	accessToken = token;
-	accessSecret = tokenSecret;
-	twitterOauth.access_token = token;
-	twitterOauth.access_token_secret = tokenSecret;
-	//Continuing on
-	process.nextTick(function() {
-		return done(null, profile);
-	});
-}));
 
 //Configures the Template engine
 app.engine('handlebars', handlebars());
@@ -119,12 +115,6 @@ app.get('/UserHasLoggedIn', function(req, res) {
 });
 
 
-//twitter authentication Oauth setup
-//this will set up twitter oauth for any user not just one
-app.get('/auth/twitter', passport.authenticate('twitter'), function(req, res) {
-	//nothing here because callback redirects to /auth/twitter/callback
-});
-
 app.get("/graph", function(req,res){
 	res.render("graph");
 })
@@ -133,34 +123,6 @@ app.get("/facebook/feed", function(req,res){
 	graph.get("/me/posts", function(err,response){
 		res.end(JSON.stringify(response.data));
 	})
-});
-
-//callback. authenticates again and then goes to twitter
-app.get('/auth/twitter/callback', 
-	passport.authenticate('twitter', { failureRedirect: '/' }),
-	function(req, res) {
-		var test ="OK";
-		res.redirect('/graph');
-	});
-
-
-app.get('/twitter', ensureAuthenticated, function(req, res) {
-	//I can use twitterOauth as previously it's an array set up with the correcet information
-	var T = new twit(twitterOauth); 
-	T.get('/friends/list', function (err, reply) {
-		console.log(err); //If there is an error this will return a value
-		data = { twitterData: reply };
-		res.render('twitter', data);
-	});
-});
-
-app.get("/twitter/tweets", ensureAuthenticated, function(req,res){
-	console.log(twitterOauth);
-	var T = new twit(twitterOauth);
-	T.get('/statuses/user_timeline.json', function(err, reply){
-		console.log(err);
-		res.end(JSON.stringify(reply));
-	});
 });
 
 //set environment ports and start application
