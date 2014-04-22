@@ -49,8 +49,8 @@ function ensureAuthenticated(req, res, next) {
 
 //Use TwitterStrategy with passport
 passport.use(new passportTwitterStrategy({
-    consumerKey: 'F9JxJoQtYCC9vmwSZ3c3hBNlu',
-    consumerSecret: '7ROjhm5iqVMBWlRnAFqcUz2R3aYmZCIM2CLSqAtAVri6teegvw',
+	consumerKey: "9TTmDpr4u1RRTbjfnzE4HDGA6",
+	consumerSecret: 'xHGFkIgma0U4aVjlcQZzaUbx8AWmqRNzbGoKH18WoyBPfNZ7jv',
 	callbackURL: "http://freq-cloud.herokuapp.com/auth/twitter/callback"
 }, function (token, tokenSecret, profile, done) {
 	//setting up access token
@@ -157,7 +157,6 @@ app.get('/twitter', ensureAuthenticated, function(req, res) {
 app.get("/twitter/tweets", ensureAuthenticated, function(req,res){
 	var T = new twit(twitterOauth);
 	T.get('/statuses/user_timeline.json', function(err, reply){
-		console.log(err);
 		res.end(JSON.stringify(reply));
 	});
 });
