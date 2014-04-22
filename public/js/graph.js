@@ -1,3 +1,11 @@
+ko.bindingHandlers.percentage = {
+	update : function(element, value){
+		var val = value();
+		$(element).text(val);
+		$(element).attr("width", val+"%");
+	}
+}
+
 var w = 600;
 var h = 400
 var bubble = d3.layout.pack()
