@@ -147,7 +147,7 @@ function update(data) {
 		.attr('transform', function(d) {return 'translate(' + d.x + ',' + d.y + ')'; });
 
 	enter.append('circle')
-		.attr('r', 0)										// start elements with radius of 0 to watch them grow using transition
+		.attr('r', 0)										// start elements with radius of 0 ato watch them grow using transition
 		.style('fill', function(d) { 
 			return colors[d.pop.length]; })
 		.style("cursor", "pointer")

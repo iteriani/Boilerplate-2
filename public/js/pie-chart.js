@@ -13,6 +13,10 @@ var arc = d3.svg.arc()
     .innerRadius(radius - 100)
     .outerRadius(radius - 20);
 
+var outerArc = d3.svg.arc()
+  .innerRadius(radius * 0.9)
+  .outerRadius(radius * 0.9);
+
 var svg = d3.select("#piechart").append("svg")
     .attr("width", width)
     .attr("height", height)
