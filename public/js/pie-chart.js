@@ -28,6 +28,7 @@ var arc = d3.svg.arc()
     var popData = [];
     popData.push({label : 'likes', value : valset[0]});
     popData.push({label : 'comments', value : valset[1]});
+    console.log(popData);
     change(popData);
   }
 
@@ -59,6 +60,7 @@ d3.select(".randomize")
 
 
 function change(data) {
+  console.log("CHANGING TO", data);
 
   /* ------- PIE SLICES -------*/
   var slice = svg.select(".slices").selectAll("path.slice")
