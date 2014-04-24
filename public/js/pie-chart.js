@@ -45,6 +45,8 @@ function randomData (){
 
 change(randomData());
 
+var switchVals = function(d){}
+
 d3.select(".randomize")
   .on("click", function(){
     change(randomData());
