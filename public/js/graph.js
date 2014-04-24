@@ -167,12 +167,7 @@ function update(data) {
 		.style('opacity', 0)
 		.style('fill', 'black')
 		.style('text-anchor', 'middle')
-		.text(function(d) { return d.name + "("+d.size + " popularity)("+d.pop.length+" occurrence)"; });
-		enter.append('text')
-		.style('opacity', 0)
-		.style('fill', 'black')
-		.style('text-anchor', 'middle')
-		.text(function(d) { return d.name + "("+d.size + " popularity)("+d.pop.length+" occurrence)"; });
+		.html(function(d) { return d.name + "<br/>("+d.size + " pop)<br/>("+d.pop.length+" freq)"; });
 
 
 	// UPDATE
