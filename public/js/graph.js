@@ -163,12 +163,11 @@ function update(data) {
 		})
 		
 
-	enter.append('text')
-		.style('opacity', 0)
-		.style('fill', 'black')
-		.style('text-anchor', 'middle')
-		.html(function(d) { return d.name + "<br/>("+d.size + " pop)<br/>("+d.pop.length+" freq)"; });
-
+	enter.append("foreignObject")
+	.style('opacity', 0)
+	.style('fill', 'black')
+	.style('text-anchor', 'middle')
+    .html(function(d) { return d.name + " ("+d.size + " pop) ("+d.pop.length+" freq)"; });
 
 	// UPDATE
 	var update = node.transition()
