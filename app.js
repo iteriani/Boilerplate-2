@@ -127,10 +127,7 @@ app.get('/auth/twitter', passport.authenticate('twitter'), function(req, res) {
 });
 
 app.get("/graph", function(req,res){
-	if(req.session.isLoggedIn)
-		res.render("graph");
-	else
-		res.redirect("/auth/facebook");
+	res.render("graph", {isLoggedIn : req.session.isLoggedIn});
 })
 
 app.get("/facebook/feed", function(req,res){
