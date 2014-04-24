@@ -32,12 +32,7 @@ var svg = d3.select("#piechart").append("svg")
       	return color(i); 
       })
       .attr("d", arc)
-      .each(function(d) { this._current = d; })
-
-
-      svg.selectAll("path")
-      .data(function(d,i){return "TEST"})
-      .enter().append("text").attr("text", function(d){return "TST"});
+      .each(function(d) { this._current = d; }); // store the initial angles
 
 
   function switchVals(valset){
