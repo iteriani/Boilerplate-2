@@ -1,20 +1,16 @@
+
 var svg = d3.select("#piechart")
   .append("svg")
   .append("g")
-  .on("click", function(){
-      $("#graph").slideToggle()
-      $("#piechart").slideToggle()
-  })
 
 svg.append("g")
-  .attr("class", "slices")
-
+  .attr("class", "slices");
 svg.append("g")
   .attr("class", "labels");
 svg.append("g")
   .attr("class", "lines");
 
-var width = 650 ,
+var width = 650,
     height = 350,
   radius = Math.min(width, height) / 2;
 
@@ -28,15 +24,6 @@ var arc = d3.svg.arc()
   .outerRadius(radius * 0.8)
   .innerRadius(radius * 0.4);
 
-
-  function switchVals(valset){
-    var popData = [];
-    popData.push({label : 'likes', value : Math.random()});
-    popData.push({label : 'comments', value : Math.random()});
-    console.log(popData);
-    change(randomData());
-  }
-
 var outerArc = d3.svg.arc()
   .innerRadius(radius * 0.9)
   .outerRadius(radius * 0.9);
@@ -46,8 +33,8 @@ svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 var key = function(d){ return d.data.label; };
 
 var color = d3.scale.ordinal()
-  .domain(["likes", "comments"])
-  .range(["#98abc5", "#8a89a6"]);
+  .domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
+  .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
 function randomData (){
   var labels = color.domain();
@@ -55,8 +42,8 @@ function randomData (){
     return { label: label, value: Math.random() }
   });
 }
-var randData = randomData();
-change(randData);
+
+change(randomData());
 
 d3.select(".randomize")
   .on("click", function(){
@@ -65,7 +52,6 @@ d3.select(".randomize")
 
 
 function change(data) {
-  console.log("CHANGING TO", data);
 
   /* ------- PIE SLICES -------*/
   var slice = svg.select(".slices").selectAll("path.slice")
@@ -155,8 +141,3 @@ function change(data) {
   polyline.exit()
     .remove();
 };
-
-d3.select(".randomize")
-  .on("click", function(){
-    change(randomData());
-  });
