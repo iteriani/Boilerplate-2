@@ -102,7 +102,7 @@ app.get('/auth/facebook', function(req, res) {
 	}
 	graph.authorize({
 		'client_id': '1385633658343947',
-		'redirect_uri': 'http://freq-cloud.herokuapp.com/graph',
+		'redirect_uri': 'http://freq-cloud.herokuapp.com/auth/facebook',
 		'client_secret': 'dfc8a3fee939186d27a2eb92aed2eb72',
 		'code': req.query.code
 	}, function( err, facebookRes) {
