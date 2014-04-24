@@ -42,8 +42,6 @@ var color = d3.scale.ordinal()
 
   change(data);
 
-}
-
 function change(data) {
   /* ------- PIE SLICES -------*/
   var slice = svg.select(".slices").selectAll("path.slice")
@@ -133,6 +131,8 @@ function change(data) {
   polyline.exit()
     .remove();
 };
+}
+
 
   function switchVals(valset){
     d3.select("#piechart")
