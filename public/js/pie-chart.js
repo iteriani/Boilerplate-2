@@ -43,6 +43,15 @@ var color = d3.scale.ordinal()
   .domain(["likes", "comments"])
   .range(["#98abc5", "#8a89a6"]);
 
+function randomData (){
+  var labels = color.domain();
+  return labels.map(function(label){
+    return { label: label, value: Math.random() }
+  });
+}
+var randData = randomData();
+change(randData);
+
 d3.select(".randomize")
   .on("click", function(){
     change(randomData());
