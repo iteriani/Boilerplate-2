@@ -1,21 +1,16 @@
-function makePieChart(data){
-var svg = d3.select("#piechart")
+var svg = d3.select("body")
   .append("svg")
   .append("g")
 
 svg.append("g")
-  .attr("class", "slices")
-  .on("click", function(){
-      $("#graph").slideToggle()
-      $("#piechart").slideToggle()
-  })
+  .attr("class", "slices");
 svg.append("g")
   .attr("class", "labels");
 svg.append("g")
   .attr("class", "lines");
 
-var width = 650 ,
-    height = 350,
+var width = 960,
+    height = 450,
   radius = Math.min(width, height) / 2;
 
 var pie = d3.layout.pie()
@@ -37,12 +32,26 @@ svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 var key = function(d){ return d.data.label; };
 
 var color = d3.scale.ordinal()
-  .domain(["likes", "comments"])
-  .range(["#98abc5", "#8a89a6"]);
+  .domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
+  .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
-  change(data);
+function randomData (){
+  var labels = color.domain();
+  return labels.map(function(label){
+    return { label: label, value: Math.random() }
+  });
+}
+
+change(randomData());
+
+d3.select(".randomize")
+  .on("click", function(){
+    change(randomData());
+  });
+
 
 function change(data) {
+
   /* ------- PIE SLICES -------*/
   var slice = svg.select(".slices").selectAll("path.slice")
     .data(pie(data), key);
@@ -131,13 +140,8 @@ function change(data) {
   polyline.exit()
     .remove();
 };
+
+
+function switchVals(d){
+  
 }
-
-
-  function switchVals(valset){
-    $("#piechart").html("");
-    var popData = [];
-    popData.push({label : 'likes', value : Math.random()});
-    popData.push({label : 'comments', value : Math.random()});
-    makePieChart(popData);
-  }
