@@ -163,7 +163,7 @@ function update(data) {
 		})
 		
 
-	enter.append('"xhtml:body"')
+	enter.append("xhtml:body")
 		.style('opacity', 0)
 		.style('fill', 'black')
 		.style('text-anchor', 'middle')
