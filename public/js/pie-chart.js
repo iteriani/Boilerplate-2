@@ -25,13 +25,10 @@ var arc = d3.svg.arc()
 
 
   function switchVals(valset){
-   /* console.log(valset);
-    var i = 0;
-    pie.value(function(d) {
-     return valset[i++]; 
-     }); // change the value function
-    path = path.data(pie); // compute the new angles
-    path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs*/
+    var popData = [];
+    popData.push({label : 'likes', value : valset[0]});
+    popData.push({label : 'comments', value : valset[1]});
+    change(popData);
   }
 
 var outerArc = d3.svg.arc()
@@ -43,18 +40,8 @@ svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 var key = function(d){ return d.data.label; };
 
 var color = d3.scale.ordinal()
-  .domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
-  .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-function randomData (){
-  var labels = color.domain();
-  return labels.map(function(label){
-    return { label: label, value: Math.random() }
-  });
-}
-var randData = randomData();
-console.log(randData, "RANDOM DATA")
-change(randData);
+  .domain(["likes", "comments"])
+  .range(["#98abc5", "#8a89a6"]);
 
 d3.select(".randomize")
   .on("click", function(){
