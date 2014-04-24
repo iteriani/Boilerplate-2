@@ -1,159 +1,68 @@
-function makePieChart(){
-var svg = d3.select("#piechart")
-  .append("svg")
-  .append("g")
 
-svg.append("g")
-  .attr("class", "slices")
-  .on("click", function(){
-      $("#graph").slideToggle()
-      $("#piechart").slideToggle()
-  })
-svg.append("g")
-  .attr("class", "labels");
-svg.append("g")
-  .attr("class", "lines");
-
-var width = 650 ,
+var width = 600,
     height = 350,
-  radius = Math.min(width, height) / 2;
+    radius = Math.min(width, height) / 2;
+
+var color = d3.scale.category20();
 
 var pie = d3.layout.pie()
-  .sort(null)
-  .value(function(d) {
-    return d.value;
-  });
+    .value(function(d) { return d.init; })
+    .sort(null);
 
 var arc = d3.svg.arc()
-  .outerRadius(radius * 0.8)
-  .innerRadius(radius * 0.4);
+    .innerRadius(radius - 100)
+    .outerRadius(radius - 20);
 
-
-var outerArc = d3.svg.arc()
-  .innerRadius(radius * 0.9)
-  .outerRadius(radius * 0.9);
-
-svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-var key = function(d){ return d.data.label; };
-
-var color = d3.scale.ordinal()
-  .domain(["likes", "comments"])
-  .range(["#98abc5", "#8a89a6"]);
-
-function randomData (){
-  var labels = color.domain();
-  return labels.map(function(label){
-    return { label: label, value: Math.random() }
-  });
-}
-var randData = randomData();
-change(randData);
-
-d3.select(".randomize")
-  .on("click", function(){
-    change(randomData());
-  });
-
-
-function change(data) {
-  console.log("CHANGING TO", data);
-
-  /* ------- PIE SLICES -------*/
-  var slice = svg.select(".slices").selectAll("path.slice")
-    .data(pie(data), key);
-
-  slice.enter()
-    .insert("path")
-    .style("fill", function(d) { return color(d.data.label); })
-    .attr("class", "slice");
-
-  slice   
-    .transition().duration(1000)
-    .attrTween("d", function(d) {
-      this._current = this._current || d;
-      var interpolate = d3.interpolate(this._current, d);
-      this._current = interpolate(0);
-      return function(t) {
-        return arc(interpolate(t));
-      };
+var svg = d3.select("#piechart").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+  	.append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+    .on("click", function(){
+		$("#piechart").slideToggle();
+		$("#graph").slideToggle()
     })
+    .style("cursor", "pointer");
 
-  slice.exit()
-    .remove();
 
-  /* ------- TEXT LABELS -------*/
+ 	var data = [{"init" : 100, "second" : 54325}, {"init" : 0, "second" : 50000}];
+ 	var path = svg.datum(data).selectAll("path")
+      .data(pie)
+    .enter().append("path")
+      .attr("fill", function(d, i) { 
+      	return color(i); 
+      })
+      .attr("d", arc)
+      .each(function(d) { this._current = d; }); // store the initial angles
 
-  var text = svg.select(".labels").selectAll("text")
-    .data(pie(data), key);
 
-  text.enter()
-    .append("text")
-    .attr("dy", ".35em")
-    .text(function(d) {
-      return d.data.label;
-    });
-  
-  function midAngle(d){
-    return d.startAngle + (d.endAngle - d.startAngle)/2;
-  }
-
-  text.transition().duration(1000)
-    .attrTween("transform", function(d) {
-      this._current = this._current || d;
-      var interpolate = d3.interpolate(this._current, d);
-      this._current = interpolate(0);
-      return function(t) {
-        var d2 = interpolate(t);
-        var pos = outerArc.centroid(d2);
-        pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
-        return "translate("+ pos +")";
-      };
-    })
-    .styleTween("text-anchor", function(d){
-      this._current = this._current || d;
-      var interpolate = d3.interpolate(this._current, d);
-      this._current = interpolate(0);
-      return function(t) {
-        var d2 = interpolate(t);
-        return midAngle(d2) < Math.PI ? "start":"end";
-      };
-    });
-
-  text.exit()
-    .remove();
-
-  /* ------- SLICE TO TEXT POLYLINES -------*/
-
-  var polyline = svg.select(".lines").selectAll("polyline")
-    .data(pie(data), key);
-  
-  polyline.enter()
-    .append("polyline");
-
-  polyline.transition().duration(1000)
-    .attrTween("points", function(d){
-      this._current = this._current || d;
-      var interpolate = d3.interpolate(this._current, d);
-      this._current = interpolate(0);
-      return function(t) {
-        var d2 = interpolate(t);
-        var pos = outerArc.centroid(d2);
-        pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
-        return [arc.centroid(d2), outerArc.centroid(d2), pos];
-      };      
-    });
-  
-  polyline.exit()
-    .remove();
-};
-  }
-
-  makePieChart();
   function switchVals(valset){
-    var popData = [];
-    popData.push({label : 'likes', value : Math.random()});
-    popData.push({label : 'comments', value : Math.random()});
-    console.log(popData);
-    change(popData);
+  	console.log(valset);
+  	var i = 0;
+  	pie.value(function(d) {
+     return valset[i++]; 
+     }); // change the value function
+    path = path.data(pie); // compute the new angles
+    path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
   }
+/*
+  setInterval(function(){
+  	var data = [];
+  	for(var i = 0; i < 6; i++){
+  		data.push(parseInt(Math.random()*75000));
+  	}
+  	switchVals(data)
+  	
+  },1050)*/
+
+
+// Store the displayed angles in _current.
+// Then, interpolate from _current to the new angles.
+// During the transition, _current is updated in-place by d3.interpolate.
+function arcTween(a) {
+  var i = d3.interpolate(this._current, a);
+  this._current = i(0);
+  return function(t) {
+    return arc(i(t));
+  };
+}
