@@ -30,9 +30,11 @@ polyline{
 	<br>
 	<div class="row">
 		<h1 class="col-md-8">Status Cloud <small> Analyze your words!</small></h1>
+		{{#if isLoggedIn}}
 		<div class="col-md-2">
             <a class="btn btn-info" href="/auth/facebook">Login with Facebook </a>
 		</div>
+		{{/if}}
 		</div>
 	</div>
 	<textarea type="text" data-bind="value : words" class="form-control"></textarea>
