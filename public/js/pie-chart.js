@@ -25,13 +25,13 @@ var arc = d3.svg.arc()
 
 
   function switchVals(valset){
-    console.log(valset);
+   /* console.log(valset);
     var i = 0;
     pie.value(function(d) {
      return valset[i++]; 
      }); // change the value function
     path = path.data(pie); // compute the new angles
-    path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
+    path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs*/
   }
 
 var outerArc = d3.svg.arc()
