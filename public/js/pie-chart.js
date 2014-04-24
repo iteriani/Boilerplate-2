@@ -135,8 +135,7 @@ function change(data) {
 
 
   function switchVals(valset){
-    d3.select("#piechart")
-       .remove();
+    $("#piechart").html("");
     var popData = [];
     popData.push({label : 'likes', value : Math.random()});
     popData.push({label : 'comments', value : Math.random()});
