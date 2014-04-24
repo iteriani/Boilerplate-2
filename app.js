@@ -106,6 +106,7 @@ app.get('/auth/facebook', function(req, res) {
 		'client_secret': 'dfc8a3fee939186d27a2eb92aed2eb72',
 		'code': req.query.code
 	}, function( err, facebookRes) {
+		req.session.isLoggedIn = true;
 		res.redirect('/graph');
 	});
 });
@@ -126,7 +127,10 @@ app.get('/auth/twitter', passport.authenticate('twitter'), function(req, res) {
 });
 
 app.get("/graph", function(req,res){
-	res.render("graph");
+	if(req.session.isLoggedIn)
+		res.render("graph");
+	else
+		res.redirect("/auth/facebook");
 })
 
 app.get("/facebook/feed", function(req,res){
