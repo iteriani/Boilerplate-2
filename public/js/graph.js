@@ -118,6 +118,9 @@ $.getJSON("/facebook/feed", function(data){
 		msg.push(s);
 	});
 	console.log(msg);
+	if(msg.length == 0){
+		location.href="/auth/facebook";
+	}
 	viewModel.messages(msg);
 	ko.applyBindings(viewModel, document.getElementById("page"));
 })
