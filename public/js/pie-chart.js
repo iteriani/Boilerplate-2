@@ -1,3 +1,4 @@
+
 var width = 600,
     height = 350,
     radius = Math.min(width, height) / 2;
@@ -23,12 +24,6 @@ var svg = d3.select("#piechart").append("svg")
     })
     .style("cursor", "pointer");
 
-svg.append("g")
-  .attr("class", "labels");
-
-svg.append("g")
-  .attr("class", "lines");
-
   var data = [{"init" : 100, "second" : 54325}, {"init" : 0, "second" : 50000}];
   var path = svg.datum(data).selectAll("path")
       .data(pie)
@@ -49,6 +44,16 @@ svg.append("g")
     path = path.data(pie); // compute the new angles
     path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
   }
+/*
+  setInterval(function(){
+    var data = [];
+    for(var i = 0; i < 6; i++){
+      data.push(parseInt(Math.random()*75000));
+    }
+    switchVals(data)
+    
+  },1050)*/
+
 
 // Store the displayed angles in _current.
 // Then, interpolate from _current to the new angles.
@@ -60,43 +65,3 @@ function arcTween(a) {
     return arc(i(t));
   };
 }
-var key = function(d){ return "test"; };
-
-var text = svg.select(".labels").selectAll("text")
-    .data(pie(data), key);
-
-  text.enter()
-    .append("text")
-    .attr("dy", ".35em")
-    .text(function(d) {
-      return "test";
-    });
-  
-  function midAngle(d){
-    return d.startAngle + (d.endAngle - d.startAngle)/2;
-  }
-
-  text.transition().duration(1000)
-    .attrTween("transform", function(d) {
-      this._current = this._current || d;
-      var interpolate = d3.interpolate(this._current, d);
-      this._current = interpolate(0);
-      return function(t) {
-        var d2 = interpolate(t);
-        var pos = outerArc.centroid(d2);
-        pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
-        return "translate("+ pos +")";
-      };
-    })
-    .styleTween("text-anchor", function(d){
-      this._current = this._current || d;
-      var interpolate = d3.interpolate(this._current, d);
-      this._current = interpolate(0);
-      return function(t) {
-        var d2 = interpolate(t);
-        return midAngle(d2) < Math.PI ? "start":"end";
-      };
-    });
-
-  text.exit()
-    .remove();
