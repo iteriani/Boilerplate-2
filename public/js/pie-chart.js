@@ -1,9 +1,14 @@
 var svg = d3.select("#piechart")
   .append("svg")
   .append("g")
+  .on("click", function(){
+      $("#graph").slideToggle()
+      $("#piechart").slideToggle()
+  })
 
 svg.append("g")
-  .attr("class", "slices");
+  .attr("class", "slices")
+
 svg.append("g")
   .attr("class", "labels");
 svg.append("g")
