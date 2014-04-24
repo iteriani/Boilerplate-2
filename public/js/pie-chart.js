@@ -52,8 +52,9 @@ function randomData (){
     return { label: label, value: Math.random() }
   });
 }
-
-change(randomData());
+var randData = randomData();
+console.log(randData, "RANDOM DATA")
+change(randData);
 
 d3.select(".randomize")
   .on("click", function(){
