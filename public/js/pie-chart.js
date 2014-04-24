@@ -26,8 +26,8 @@ var arc = d3.svg.arc()
 
   function switchVals(valset){
     var popData = [];
-    popData.push({label : 'likes', value : valset[0]});
-    popData.push({label : 'comments', value : valset[1]});
+    popData.push({label : 'likes', value : Math.random()});
+    popData.push({label : 'comments', value : Math.random()});
     console.log(popData);
     change(popData);
   }
