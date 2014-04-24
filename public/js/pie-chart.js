@@ -34,7 +34,7 @@ var arc = d3.svg.arc()
     popData.push({label : 'likes', value : Math.random()});
     popData.push({label : 'comments', value : Math.random()});
     console.log(popData);
-    change(popData);
+    change(randomData());
   }
 
 var outerArc = d3.svg.arc()
