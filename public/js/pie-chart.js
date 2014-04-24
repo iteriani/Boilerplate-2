@@ -155,3 +155,8 @@ function change(data) {
   polyline.exit()
     .remove();
 };
+
+d3.select(".randomize")
+  .on("click", function(){
+    change(randomData());
+  });
