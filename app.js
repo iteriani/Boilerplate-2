@@ -106,7 +106,6 @@ app.get('/auth/facebook', function(req, res) {
 		'client_secret': 'dfc8a3fee939186d27a2eb92aed2eb72',
 		'code': req.query.code
 	}, function( err, facebookRes) {
-		req.session.isLoggedIn = true;
 		res.redirect('/graph');
 	});
 });
@@ -132,9 +131,6 @@ app.get("/graph", function(req,res){
 
 app.get("/facebook/feed", function(req,res){
 	graph.get("/me/posts", function(err,response){
-		if(err){
-			res.end("[]");
-		}
 		res.end(JSON.stringify(response.data));
 	})
 });
