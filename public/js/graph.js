@@ -117,7 +117,7 @@ $.getJSON("/facebook/feed", function(data){
 	data.forEach(function(s){
 		msg.push(s);
 	});
-	console.log(msg);
+
 	if(msg.length == 0){
 		location.href="/auth/facebook";
 	}

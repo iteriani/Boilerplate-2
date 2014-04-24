@@ -88,7 +88,7 @@ app.get('/', function(req,res) {
 app.get('/auth/facebook', function(req, res) {
 	if (!req.query.code) {
 		var authUrl = graph.getOauthUrl({
-			'client_id': '273635606130233',
+			'client_id': '1385633658343947',
 			'redirect_uri': 'http://freq-cloud.herokuapp.com/auth/facebook',
 			'scope': 'user_about_me,read_stream'//you want to update scope to what you want in your app
 		});
@@ -101,9 +101,9 @@ app.get('/auth/facebook', function(req, res) {
 		return;
 	}
 	graph.authorize({
-		'client_id': '273635606130233',
+		'client_id': '1385633658343947',
 		'redirect_uri': 'http://freq-cloud.herokuapp.com/auth/facebook',
-		'client_secret': '6c2304c6baf5c52a99715f9280256921',
+		'client_secret': 'dfc8a3fee939186d27a2eb92aed2eb72',
 		'code': req.query.code
 	}, function( err, facebookRes) {
 		res.redirect('/graph');
@@ -131,6 +131,9 @@ app.get("/graph", function(req,res){
 
 app.get("/facebook/feed", function(req,res){
 	graph.get("/me/posts", function(err,response){
+		if(err){
+			res.end("[]");
+		}
 		res.end(JSON.stringify(response.data));
 	})
 });
