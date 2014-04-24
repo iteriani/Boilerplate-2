@@ -89,7 +89,7 @@ app.get('/auth/facebook', function(req, res) {
 	if (!req.query.code) {
 		var authUrl = graph.getOauthUrl({
 			'client_id': '1385633658343947',
-			'redirect_uri': 'http://freq-cloud.herokuapp.com/graph/',
+			'redirect_uri': 'http://freq-cloud.herokuapp.com/auth/facebook',
 			'scope': 'user_about_me,read_stream'//you want to update scope to what you want in your app
 		});
 
