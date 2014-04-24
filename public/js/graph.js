@@ -167,7 +167,7 @@ function update(data) {
 		.style('opacity', 0)
 		.style('fill', 'black')
 		.style('text-anchor', 'middle')
-		.text(function(d) { return d.name + "("+d.size + " popularity)("+d.pop.length+" occurrence)"; });
+		.text(function(d) { return d.name + "("+d.size + " pop)("+d.pop.length+" freq)"; });
 
 
 	// UPDATE
